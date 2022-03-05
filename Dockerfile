@@ -18,3 +18,6 @@ COPY . .
 
 # run migrations
 RUN python manage.py migrate
+
+# run seed
+RUN python manage.py seed
