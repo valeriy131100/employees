@@ -52,6 +52,14 @@ $ pip install -r requirements.txt
 $ venv/bin/python manage.py migrate
 ```
 
+### Заполнение фейковыми данными
+Находясь в директории employees исполните:
+```bash
+$ venv/bin/python manage.py seed
+```
+
+Будет создано 50000 случайных сотрудников с 5 уровнями иерархии.
+
 ### Запуск сайта
 Находясь в директории employees исполните:
 ```bash
