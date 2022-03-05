@@ -20,9 +20,10 @@ class Command(BaseCommand):
             Employee(
                 full_name=fake.name(),
                 position=fake.job(),
-                employment_date=fake.date()
+                employment_date=fake.date(),
+                salary=random.randint(100, 50000)
             )
-            for i in range(50000)
+            for _ in range(50000)
         ]
 
         Employee.objects.bulk_create(employees)

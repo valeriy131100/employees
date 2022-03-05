@@ -1,3 +1,4 @@
+from django.core.validators import MinValueValidator
 from django.db import models
 
 
@@ -15,6 +16,12 @@ class Employee(models.Model):
     employment_date = models.DateField(
         verbose_name='Дата трудоустройства',
         db_index=True
+    )
+    salary = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        verbose_name='Зарплата',
+        validators=[MinValueValidator(0)]
     )
     boss = models.ForeignKey(
         'Employee',
