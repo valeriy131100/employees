@@ -2,3 +2,4 @@ Django~=4.0.2
 djangorestframework~=3.13.1
 environs~=9.5.0
 requests~=2.27.1
+Faker~=13.3.0
