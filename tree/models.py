@@ -23,3 +23,6 @@ class Employee(models.Model):
         blank=True,
         on_delete=models.SET_NULL
     )
+
+    def __str__(self):
+        return f'{self.full_name}: {self.position}'
