@@ -21,7 +21,8 @@ class Employee(models.Model):
         verbose_name='Начальник',
         null=True,
         blank=True,
-        on_delete=models.SET_NULL
+        on_delete=models.SET_NULL,
+        related_name='subordinates'
     )
 
     def __str__(self):
