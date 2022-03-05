@@ -4,14 +4,17 @@ from django.db import models
 class Employee(models.Model):
     full_name = models.CharField(
         verbose_name='ФИО',
-        max_length=200
+        max_length=200,
+        db_index=True
     )
     position = models.CharField(
         verbose_name='Должность',
-        max_length=200
+        max_length=200,
+        db_index=True
     )
     employment_date = models.DateField(
-        verbose_name='Дата трудоустройства'
+        verbose_name='Дата трудоустройства',
+        db_index=True
     )
     boss = models.ForeignKey(
         'Employee',
