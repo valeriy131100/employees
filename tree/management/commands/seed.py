@@ -29,14 +29,7 @@ class Command(BaseCommand):
         Employee.objects.bulk_create(employees)
 
         for num, employee in enumerate(employees):
-            if 10 <= num < 100:
-                employee.boss = random.choice(employees[0:10])
-            if 100 <= num < 1000:
-                employee.boss = random.choice(employees[10: 100])
-            if 1000 <= num < 10000:
-                employee.boss = random.choice(employees[1000:10000])
-            if 10000 <= num <= 50000:
-                employee.boss = random.choice(employees[1000:10000])
+            if num >= 10:
+                employee.boss = employees[num//10 - 1]
 
         Employee.objects.bulk_update(employees, fields=['boss'])
-
