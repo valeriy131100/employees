@@ -16,6 +16,9 @@ RUN pip install -r requirements.txt
 # copy project
 COPY . .
 
+# flush before migrations and seeding
+RUN python manage.py flush --no-input
+
 # run migrations
 RUN python manage.py migrate
 
