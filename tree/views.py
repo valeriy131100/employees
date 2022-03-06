@@ -14,6 +14,13 @@ def index(request):
     )
 
 
+def tree(request):
+    return render(
+        request,
+        template_name='tree.html'
+    )
+
+
 class EmployeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Employee
