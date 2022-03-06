@@ -28,6 +28,7 @@ class EmployeeSerializer(serializers.ModelSerializer):
 
 @api_view(['GET'])
 def get_subordinates(request, start_from=None):
+    boss = None
     if start_from is None:
         employees = Employee.objects.filter(boss=None)
     else:
@@ -35,8 +36,11 @@ def get_subordinates(request, start_from=None):
         employees = boss.subordinates
 
     return Response(
-        EmployeeSerializer(
-            employees,
-            many=True
-        ).data
+        {
+            "boss": EmployeeSerializer(boss).data if boss else None,
+            "subordinates": EmployeeSerializer(
+                employees,
+                many=True
+            ).data
+        }
     )

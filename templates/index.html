@@ -16,7 +16,7 @@
         <div class="modal-dialog" style="margin-bottom:0">
             <div class="modal-content">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Сотрудник</h3>
+                    <h3 class="panel-title" id="employee-title">Сотрудник</h3>
                 </div>
                 <div class="panel-body" id="employee-info">
                 </div>
@@ -26,33 +26,57 @@
 </template>
 
 <script>
+    function insertAfter(referenceNode, newNode) {
+        referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+    }
+
     window.addEventListener("load", function () {
         const employees_container = document.getElementById("employee-container")
         const subordinates_url = "{% url 'root_subordinates' %}"
         const card_template = document.getElementById("employee-card")
 
-        function loadEmployees(){
+        employees_container.addEventListener('click', (event) => {
+          const isButton = event.target.nodeName === 'BUTTON';
+          if (isButton) {
+              loadEmployees(event.target.value, event.target.parentNode.parentNode.parentNode.parentNode)
+          }
+        })
+
+        function loadEmployees(boss_id=null, add_after=null){
             const XHR = new XMLHttpRequest();
 
             XHR.addEventListener("load", function (event) {
                 const jsonResponse =  JSON.parse(event.target.response);
-                jsonResponse.forEach(function (employee, index) {
-                    console.log(employee);
+                jsonResponse["subordinates"].forEach(function (employee, index) {
                     let card_employee = card_template.content.cloneNode(true);
                     card_employee.getElementById("employee-info").innerHTML =
                         `Имя: ${employee["full_name"]}<br>
                         Должность: ${employee["position"]}<br>
                         Дата приема на работу: ${employee["employment_date"]}<br>
                         Оклад: ${employee["salary"]}<br>
-                        <button class="btn btn-sm btn-success">Загрузить подчиненных</button>
+                        <button class="btn btn-sm btn-success" value="${employee["id"]}">Загрузить подчиненных</button>
                         `;
-                    employees_container.appendChild(card_employee);
+                    if (add_after === null) {
+                        employees_container.appendChild(card_employee);
+                    }
+                    else {
+                        card_employee.getElementById("employee-title").innerHTML =
+                        `Подчиненный ${jsonResponse["boss"]["full_name"]}
+                        `
+                        insertAfter(add_after, card_employee);
+                    }
                 });
             });
 
             XHR.addEventListener("error", function (event) {
             });
-            XHR.open("GET", subordinates_url);
+
+            if (boss_id !== null) {
+                XHR.open("GET", subordinates_url + boss_id);
+            }
+            else {
+                XHR.open("GET", subordinates_url);
+            }
 
             XHR.send();
         }
