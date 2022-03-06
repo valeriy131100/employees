@@ -31,11 +31,8 @@ def get_subordinates(request, start_from=None):
     if start_from is None:
         employees = Employee.objects.filter(boss=None)
     else:
-        print(start_from)
         boss = get_object_or_404(Employee, pk=start_from)
         employees = boss.subordinates
-
-        print(boss.subordinates)
 
     return Response(
         EmployeeSerializer(
